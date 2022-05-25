@@ -1,0 +1,662 @@
+\documentclass[A4paper,11pt]{report}
+\usepackage[margin = 1in]{geometry}
+\usepackage{lipsum}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{subcaption}
+\usepackage{hyperref}
+
+\renewcommand\thesection{\arabic{section}}
+
+\begin{document}
+		\begin{center}
+		\centering
+		\thispagestyle{empty}
+			\textbf{\Huge \textit{Indian Institute Of Technology, Kanpur}}
+			\linebreak
+			\linebreak
+			\linebreak
+			\linebreak
+			\textbf{\textit{\LARGE STAMATICS}}
+			\linebreak
+			\linebreak
+			\linebreak
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width = 0.8\textwidth]{download.jpg}
+				\newline
+				\newline
+				\newline
+			\end{figure}
+		\begin{center}
+			\Large 	\textit{A Project Report on} \\
+			\textbf{\huge Student Alcohol Consumption Analysis using \\Multiple Linear Regression Model}
+		\end{center}
+		
+		\begin{center}
+		\Large \textit{Guided by}\\
+		\Large \textbf{\textit{Sandipan Mitra \& Rohan Kumar}}
+		\linebreak
+		\linebreak
+		\linebreak
+		\end{center}
+	\Large \textit{Submitted by}\\
+		\huge \textbf{Prithwijit Ghosh - 211349}\\
+		\huge \textbf{Amit Meena - 211259}\\
+	\end{center}
+	\newpage
+	\pagenumbering{roman}
+	\section*{Abstract}
+	\addcontentsline{toc}{section}{Abstract}
+	In our modern days, in one side student's grades are gradually decreasing from year to year and on the other hand some bad habits among the students such as -\textbf{Alcoholism,favour in relationship }etc.. are also present among many of the students. Hence by the data-set in our project,\textbf{\textit{Student Alcohol Consumption}}, we first try to see whether alcoholism,relationship play a big role in student's grade in long run. If not then among many other variables such as - \textbf{family support,family educational background,study hours,grades in previous exams}etc.. which are most important for predicting the student's grade more accurately.\\
+	\par For this, we first do some sort of Exploratory Data Analysis on the response variable and the remaining regressor variables.  we start with the usual error assumption and fit a multiple linear regression model where the response variable is the student's final grade and the regressors are the student's alcohol consumption habit,relationship etc..If this regression is insignificant then we will choose all the variables as regressors and fit the multiple linear regression model and finally we will choose only the best subset of regressors that can best explain the response variable.
+	\newpage
+	\section*{Acknowledgment}
+	\addcontentsline{toc}{section}{Acknowledgement}
+	As it is rightly said that the real learning comes from a practical work.\\
+	
+	The success and final outcome of this assignment required a lot of guidance and assistance from many people and we are extremely fortunate to have got this all along with the completion of our project work. Whatever we have done in this project is only due to the wonderful guidance and assistance of our project mentors \textbf{Sandipan Mitra \& Rohan Kumar}, Society of Stamatics, IIT Kanpur for giving us this great opportunity to do the project on \textbf{\textit{‘Student Alcohol Consumption and Their Grades’}} and providing us all support and guidance which made us complete the project work on time. Without his valuable guidance and motivation, it was nearly impossible to work on this project as a team and understand the practical aspect of the topic \textbf{\textit {"Regression Analysis}}. 
+	\\Last but not the least we are grateful to all the faculty members and the seniors who constantly remained in touch with us and supported us at many stages.\\
+	
+	
+	\begin{flushright}
+		Yours Sincerely,\\
+		\textbf{Prithwijit Ghosh - 211349}\\
+		\textbf{Amit Meena - 211259}
+	\end{flushright}
+	
+	\tableofcontents
+	\listoftables
+	\listoffigures
+	\newpage
+	\section{Introduction}
+	\pagenumbering{arabic}
+	Drinking has negative effects on young students, their families, and their respective schools or colleges. According to an extensive research from the \textbf{NIAAA} in 2015, drinking has been prevalent among 86.4\% of students ages 18 and above. The same report noted that 1,825 college students 18 to 24 years old lost their lives due to alcohol-related road accidents. Roughly 97,000 students in the same age range have been involved in sexual assaults and rape due to excessive drinking. So in between the age period 15-22 years students get destroyed by the attraction to consumption of alcohol , they are losing their real ability and efficiency and creating a bad environment for others. Obviously this bad habit also affects their academic career.\\
+	But not only alcohol consumption but also several other effects can damage the progress in the student's life silently. For an example, in student life, if a student involves in relationship, his/her academic life may be ruined. This happens mainly because in a romantic relationship many student forget their original route("Education") and go with spurious or a wrong route mainly because of immaturity and lovesick behavior in childhood.\\
+	Also their family condition e.g. parental education, richness affects affect immensely to their educational life. This thing happens mainly because there is a general tendency that the student from the lower middle class or the middle class are more accurate to their study and education than those from heavily richer class. Students from lower wealth have a stronger insight into their goals mainly because of their responsibility and maturity due to their financial background. But the students with the richer background have nothing to achieve in their life in the sense money,fame etc..So they mainly involves in some relationship, alcohol and so on.. So these factors together decide whether a student get a proper\textbf{ prosperity in their life or not} in long margin or more conveniently \textbf{Statistically}.\\
+	So we were interested in analyzing the academic performance of those students who started consumption of alcohol.
+	
+	
+	
+	\section{Data-set Description}
+	\subsection{data-set Description} Our data contain full information about the relationship of students grades with their other activities e.g. alcohol consumption habit, in the student life whether they fall into relationship etc. So, obviously here our target variable is the final grade of the student i.e.\\
+	\textbf{G3 $\rightarrow$ final grade,where these grades are related with the course subject, Math or Portuguese}.
+	 
+	
+	\vspace{-0.5 cm}\paragraph{}Now Our regressor variables are both types i.e. categorical and continuous. In categorical columns student's school,sex,address etc. are included and simultaneously in the continuous columns student's grade in the first period(G1),grade in the second period,health,workday alcohol consumption habit,weekend alcohol consumption habit etc. are included.\\
+	\vspace{-0.5 cm}\par In our data-set there exists a tidy number of binary variables i.e. discrete variables taking only two possible values corresponding to happening or non-happening of a particular event. In this case they are namely student's extra educational support,family educational support,internet access,whether he/she fall in relationship etc.
+	
+%	\vspace{-0.5 cm}\paragraph{}Now it is a very fruitful question that based on the information of customers can we predict something whether in the last campaign customers successfully grab the offer or we have to think in a different way keeping in mind of the price constraint i.e. more specifically can we fit a suitable model based on the given information to predict the response variable (customer's response in the last campaign)? We try to answer this question by our statistical analytical procedure.
+	So the complete description of our regressors and response variable is given below --\\
+	\begin{table}[ht]
+		\centering
+		\begin{adjustbox}{width = 1\textwidth,center = \textwidth}
+			\small
+			\begin{tabular}{||l|l|l|l||}
+				\hline
+				\hline
+				\textbf{Index} & \textbf{Data} & \textbf{Type} & \textbf{Description}\\
+				\hline
+				\hline
+				1.&School & Binary & Student's School ( 'GP' - Gabriel Pereira or 'MS' - Mousinho da Silveira)\\
+				2.&Sex & Binary & student's sex ( 'F' - female or 'M' - male)\\
+				3.&Age & Numeric & student's age ( from 15 to 22) \\
+				4.&Address & Binary & student's home address type ( 'U' - urban or 'R' - rural) \\
+				5.&Fam Size & Binary & family size ( 'LE3' - less or equal to 3 or 'GT3' - greater than 3)\\
+				6.&Pstatus & Binary & parent's cohabitation status ( 'T' - living together or 'A' - apart)\\
+				7.&Medu & Numeric &	mother's education ( 0 - none, 1 - primary education (4th grade), 2 – 5th to 9th grade, 3 – secondary education or 4 – higher education)\\
+				8.&Fedu & Numeric & father's education (0 - none, 1 - primary education (4th grade), 2 – 5th to 9th grade, 3 – secondary education or 4 – higher education)\\
+				9.&Mjob & Numeric &	mother's job( 'teacher', 'health' care related, civil 'services' (e.g. administrative or police), 'at-home' or 'other')\\
+				10.&Fjob & Nominal & father's job ( 'teacher', 'health' care related, civil 'services' (e.g. administrative or police), 'at-home' or 'other')\\
+				11.&Reason & Nominal & reason to choose this school (: close to 'home', school 'reputation', 'course' preference or 'other')\\
+				12.&Guardian & Nominal & student's guardian ( 'mother', 'father' or 'other')\\
+				13.&Traveltime & Numeric & home to school travel time ( 1 - $<$ 15 min., 2 - 15 to 30 min., 3 - 30 min. to 1 hour, or 4 - $>$ 1 hour)\\
+				14.&Studytime & Numeric & weekly study time ( 1 - $<$2 hours, 2 - 2 to 5 hours, 3 - 5 to 10 hours, or 4 - $>$10 hours)\\
+				15.&Failures & Numeric & number of past class failures ( n if $1<=n<3$, else 4)\\
+				16.&School sup & Binary & extra educational support ( yes or no)\\
+				17.&Fam sup & Binary & family educational support ( yes or no)\\
+				18.&Paid & Binary & extra paid classes within the course subject (Math or Portuguese) ( yes or no)\\
+				19.&Activities & Binary & extra-curricular activities ( yes or no)\\
+				20.&Nursery & Binary & attended nursery school ( yes or no)\\
+				21.&Higher &	Binary & wants to take higher education ( yes or no)\\
+				22.&Romantic & Numeric & with a romantic relationship (yes or no)\\
+				23.&Femrel & Numeric & quality of family relationships ( from 1 - very bad to 5 - excellent)\\
+				24.&Freetime & Numeric &	free time after school ( from 1 - very low to 5 - very high)\\
+				25.&Go Out & Numeric & going out with friends ( from 1 - very low to 5 - very high)\\
+				26.&Dalc & Numeric & workday alcohol consumption ( from 1 - very low to 5 - very high)\\
+				27.&Walc & Numeric & weekend alcohol consumption ( from 1 - very low to 5 - very high)\\
+				28.&Health & Numeric & current health status ( from 1 - very bad to 5 - very good)\\
+				29.&Absences & Numeric & number of school absences ( from 0 to 93)\\
+				30.&Internet & Binary & Internet access at home ( yes or no)\\
+				31.&G1 & numeric & first period grade ( from 0 to 20)\\
+				31.&G2 & numeric & second period grade ( from 0 to 20)\\
+				\hline
+				\hline
+				\textbf{Target} & \textbf{G3} & \textbf{numeric} & \textbf{final grade (from 0 to 20) $\rightarrow$ (This is our target variable )}\\
+				\hline
+				\hline
+			\end{tabular}
+		\end{adjustbox}
+	\caption{ Data-set Description with explanation of all the variables}
+	\end{table}	
+	\subsection{Glimpse of our Data-set}
+	\paragraph{} We have done a sufficient discussion based on our data-set. Now we move forward and go for a further study. at first we look into the data-set at a glance and then we pictorially observe the columns of our data-set.\\
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = \textwidth]{Dataset.PNG}
+		\caption{Glimpse of our Data-set}
+	\end{figure}\\
+	Now let us see what are the variables in our data-set....
+	This time we would not draw a table and write about all the variables. In this time we would see pictorially our data-set for much better understandings.
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width = \textwidth]{datadescription.PNG}
+		\caption{Glimpse of our Data-set}
+	\end{figure}
+	\section{Goal of Our Study}
+		
+	\paragraph{} Here Our response variable is G3 i.e. \textbf{final grade,where these grades are related with the course subject, Math or Portuguese} and we try to fit an MLR model based on the remaining variables. So the final grade of the student may be predicted based on the other given information on that particular student. In our model we follow the next steps respectively—
+	\begin{enumerate}
+		\vspace{0 cm}\item Basic Exploratory Data Analysis(\textbf{EDA}) on the variables in our data-set.\\
+		\vspace{-0.5 cm}\item Encoding the categorical columns into corresponding \textbf{dummy variables}.\\
+		\vspace{-0.5cm}\item checking for \textbf{outliers} and if it exists then replace them by their suitable estimates.\\
+		\vspace{-0.5cm}\item Checking for \textbf{missing values} and replace them by their corresponding estimates. \\
+		\vspace{-0.5cm}\item Fit our Multiple Linear Regression(\textbf{MLR}) with all the variables.
+		\vspace{0 cm}\item \textbf{Residual analysis} and taking necessary actions based on that.
+		\vspace{0 cm}\item Scrutinize the model for \textbf{multicollinearity issue}.\\
+		\vspace{-0.5cm}\item Finally, select the variables which are necessary and drop all other by some variable selection methods and compare them by their \textbf{adjusted $R^2$} value.	
+	\end{enumerate}
+
+	\section{Methodology}
+	\paragraph{} We already discussed about the data-set (\textbf{i.e. Student alcohol consumption}) in somewhat subjectively. Now we will discuss about our plannings of the necessary steps from the very beginning to the bottom end. At first we will encode our categorical variables to dummy variables as necessary. Then we will check whether our data contains missing values or not. Outliers will be detected (if any) for each of the regressors in the model. This outliers will be considered as missing values and replaced by the corresponding sample estimates.Then we will fit an MLR model taking \textbf{G3} as the response variable. After that, various residual plots may be plotted and necessary actions may have been taken depending on that scenario. After fitting the model, multicollinearity issue will be detected very seriously.Then from the fitted model \textbf{Model Adequacy}(i.e. mainly $R^2$ and adjusted $R^2$) will be checked and finally using some variable selection techniques we may arrive at a handful of necessary regressors containing deliberate information from the model.
+	
+	\section{Exploratory Data Analysis(EDA)}
+	\paragraph{} For every data-set we have to perform the some amount of exploratory data analysis. At first we have to visualize the pattern of the data for necessary columns and also their interrelations via some sort of critical analysis and then some great deal of visualizing tools.
+	\subsection{Data Standardization}
+	If the data is the usual raw data as taken from the field, then the further statistical analysis become too much cumbersome. Ruling out this difficulty and making the usual compatibility we have standardize the data. By standardization we simply mean that for a particular variable at first the mean has to be subtracted and then the resultant has to be divided by the standard deviation of that variable for each observation.So, mathematically,
+	$$Standardized\ Variable = \frac{Raw\ Variable - mean}{Standard\ Deviation}$$
+	And our data-set after standardizing -
+	\begin{figure}[h]
+		\includegraphics[width = \textwidth]{standardized.PNG}
+		\caption{Data-set with standardized variables}
+	\end{figure}\\
+	\subsection{EDA on response variable}
+	\paragraph{} Here our response or target variable is \textbf{G3} and it is a continuous variable.
+	 
+	So, we can plot the histogram because in any MLR model the response variable should have a normal distribution for a smooth propagation of the classical linear model theory. \\
+	\begin{figure}[h]
+		\includegraphics[width = \textwidth]{Observed_Y.PNG}
+		\caption{Histogram for the observed response variable G3}
+	\end{figure}\\
+	Here observing the histogram, it seems reasonable to assume that the distribution of the standardized response variable is nearly normal but only at the begging it takes a high jump.
+	\subsection{EDA on remaining regressor variable}
+	\par Let we will focus on the remaining regressor variable by simple bar-plot,histogram etc..since the regressor variables are treated as constant in MLR model so we only devote a small amount of EDA on them and we will move into our main model fitting purpose.\\
+	\subsubsection{Box-plot}
+	We first try to observe the box-plots for different regressor variables all taking together. Because box-plot gives 5-statistics summary not only in a neat and clean pictorial way but also shows the outlier(if any) by the dots.
+	So looking all the regressors at one glance is best fitted by the box-plot. The box-plot for our data set is the following --\\
+	\begin{figure}
+		\includegraphics[width = \textwidth]{boxplot_all.PNG}
+		\caption{Box-plot corresponding to the remaining regressor variables from the data-set}
+	\end{figure}\\
+	Now the above box-plot clearly shows that the variables in our data-set are largely affected by the outliers and we will consider this part later.\\
+	\subsubsection{Histogram and Bar-plot}
+	Box-plot says overall all the things except the fact the distribution of the of that variable can not be explained by a simple box-plot.So, we have to take care of this fact and hence for the discrete case we use the bar-plot and for the continuous case we use the histogram. for our data-set, those visualizations are described below -
+	\begin{figure}[h!]
+		\includegraphics[width = 0.9\textwidth]{continuous.PNG}
+		\caption{Box-plot corresponding to all the variables from the data-set}
+	\end{figure}\\
+	Now from the histograms we can easily say that - \\
+	\textbf{absences} $\rightarrow$ positively skewed distribution.\\
+	\textbf{G1} $\rightarrow$ symmetric distribution.\\
+	\textbf{G2}$\rightarrow$ symmetric distribution.\\
+	\textbf{G3}$\rightarrow$ symmetric distribution.\\
+	\textbf{All others} $\rightarrow$ Difficult to interpret due small range of the variables.\\
+	\par Let us now look into the binary and categorical variables by their corresponding horizontal bar-plot.
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = \textwidth]{discrete1.PNG}
+		\includegraphics[width = \textwidth]{discrete2.PNG}
+		\caption{bar-plot corresponding to the binary variables}
+	\end{figure}\\
+	\par Let us now discuss about the categorical and the binary variables separately.
+	\begin{itemize}
+		\item \textbf{categorical Variables}\\
+		\textbf{Mjob \& reason} $\rightarrow$ Each Category fills with a sufficient number of observations.\\
+		\textbf{Fjob \& guardian} $\rightarrow$ Only the first two category fills with a large number of observation and all the remaing categories contains only a small.\\
+	\end{itemize}
+	\begin{itemize}
+		\vspace{-1cm} \item \textbf{Binary Category}\\
+		\textbf{School,Pstatus,Schoolsup,higher,nursery,internet} $\rightarrow$ occurring of the particular event happens too much than the non-occurring.\\
+		\textbf{famsize,address,famsup,roamntic} $\rightarrow$ occurring of the particular event happens better than the non-occurring.\\
+		\textbf{sex,paid,activities} $\rightarrow$ occurring of the particular event  and non-occurring of that event are nearly equal.\\
+	\end{itemize}
+\vspace{-1 cm}
+	\subsubsection{Correlation Heat-map}
+	Now for observing the interrelation among the variables, here we mainly use the correlation matrix. But the correlation matrix is very difficult for visualization.\\
+	\begin{figure}[h!]
+		\includegraphics[width = 0.7\textwidth]{Correlation_all.PNG}
+		\caption{Correlation among all the variables}
+	\end{figure}\\
+	\par  Hence here we goes into the correlation heat-map where the gradient in the color interpret the higher or lower correlation among the variables. So below is the correlation heat-map for our data-set.
+	\par from the above colored correlation heat-map,reddish color indicates that the correlation is positive and the bluish color indicates that the the correlation is negative and the the zero correlation is displayed by the whitish color.\\
+	\section{Data Encoding}
+		Data encoding is a principle step for every analysis of categorical data. Here, every categorical columns have to be encoded i.e. turned them into numerical values appropriately. \\During encoding -
+		\begin{enumerate}
+			\vspace{0 cm} \item We first have to keep in mind that the design matrix must not be singular.
+			\vspace{0cm} \item There is no restriction on the model.
+			\vspace{0 cm} \item Ordinality have to be explained properly.
+		\end{enumerate}
+		\par Now we have four categorical columns and each category is a nominal category. Mow if we want to encode this category as the ordinal number e.g. 1,2,3,4... then a restriction on the model parameter is superimposed and we have to do restricted optimization for selecting the model parametr in our model, which is unnecessarily complicated. Hence here we use the usual "one hot encoding" technique to encode our categorical columns into binary variables.\\
+		\par we have four categorical variables and we have to convert them into the binary one's. These categorical columns are -
+		\textbf{Mjob,Fjob,reason\& guardian}
+	 	Total number of categories in the Mjob and the Fjob columns are 5 each,reason has 4 categories and finally guardian has only 3 categories.
+			So as by the basic rule of encoding we can encode it into 4,4,3,2 numerical variables that takes on the values 0 or 1 respectively.The categories for these four columns are -- 
+			\textbf{Mjob}$\rightarrow$\textbf{"at\_home" , "health" ,  "other"  ,  "services", "teacher" }\\
+			\textbf{Fjob}$\rightarrow$\textbf{"at\_home" , "health" ,  "other"  ,  "services", "teacher" }\\
+			\textbf{reason}$\rightarrow$\textbf{"course"   ,  "other"   ,   "home",       "reputation"}\\
+			\textbf{guardian}$\rightarrow$\textbf{"father","mother","other"}
+			\paragraph{}We are ready to encode this categorical columns in to numerical ones. Now the following table gives the summarization of what actually we want to say--
+			\begin{table}[htb]
+				\footnotesize
+				\caption{\textbf{Encoded Categorical variables Column: Mjob and Fjob}}\label{tab:table}
+				\begin{adjustbox}{width=\textwidth,center = \textwidth}
+				\begin{tabular}{|c|c c c c |}
+					\hline
+					& &  Encoded Categories : Mjob& &\\
+					\cline{2-5}
+					Raw Categories & Mjob1&	Mjob2&	Mjob3&	Mjob4\\	
+					\hline
+					at\_home &1 &0 &0 &0 \\
+					health &0 &1 &0 &0 \\
+					other &0 &0 &1 &0\\
+					services &0 &0 &0 &1\\
+					teacher &0 &0 &0 &0\\
+					\hline
+				\end{tabular}
+			\begin{tabular}{|c|c c c c |}
+				\hline
+				& &  Encoded Categories : Fjob& &\\
+				\cline{2-5}
+				Raw Categories & Fjob1&	Fjob2&	Fjob3&	Fjob4\\	
+				\hline
+				at\_home &1 &0 &0 &0 \\
+				health &0 &1 &0 &0 \\
+				other &0 &0 &1 &0\\
+				services &0 &0 &0 &1\\
+				teacher &0 &0 &0 &0\\
+				\hline
+			\end{tabular}
+	\end{adjustbox}
+	\end{table}
+	\begin{table}[H]
+		\caption{\textbf{Encoded Categorical Variables Column: Reason and Guardian}}
+		\begin{adjustbox}{width= \textwidth,center = \textwidth}
+					\begin{tabular}{|c|c c c |}
+				\hline
+				& &  Encoded Categories : reason&\\
+				\cline{2-4}
+				Raw Categories & reason1&	reason2&	reason3\\	
+				\hline
+				course &1 &0 &0 \\
+				other &0 &1 &0 \\
+				home &0 &0 &1\\
+				reputation &0 &0 &0\\
+				\hline
+			\end{tabular}
+			\begin{tabular}{|c|c c |}
+				\hline
+				&  Encoded Categories : guardian &\\
+				\cline{2-3}
+				Raw Categories & guardian1&	guardian2\\	
+				\hline
+				father &1 &0\\
+				mother&0 &1\\
+				other &0 &0\\
+				      & & \\
+				\hline
+			\end{tabular}
+		\end{adjustbox}
+	\end{table}
+	\par In the above four table we have finally converted the categorical columns into the binary dummy variables. Now we proceed with our further analysis.
+	\section{Outlier Detection}
+	\paragraph{}Outlier in the data plays a very important role when we came into the estimation purpose for the model parameters.So we have to remove or estimate the outliers based on the given scenario.
+	\paragraph{}For our model let us draw the box plots to see whether heavy amount of outliers present in our data or not for only the continuous columns. Because if we remove the outliers from the binary variables then it is not only meaningless but also there exists a situation where we can all the values corresponding to the lower class is removed and for further prosperity we have to drop the columns. If the number of outliers are quite small we can simply delete the corresponding rows, otherwise we proceed into further analysis. 
+	\paragraph{}Let us first see that the box-plots of the corresponding columns--
+	\begin{figure}[h]
+		\includegraphics[width=\textwidth]{boxplot_cont.PNG}
+		\caption {Box-plot for detecting outliers in the present data}
+	\end{figure}
+	\paragraph{}Since too much outliers are present in the data, we have to estimate them. 
+	Here we apply Interquartile Range method (IQR) for outlier detection and removal of outliers. Observing the boxplot, it is almost sure that the variables are skewed. So, IQR method suits well for such kind of data. 
+	\paragraph{}Let, X denotes the variable \\
+	Then the IQR =(q\textsubscript{3}(X)-q\textsubscript{1}(X))
+	Where, q\textsubscript{3}(X)= 3\textsuperscript{rd} quartile ; q\textsubscript{1}(X)=1\textsuperscript{st} quartile
+	\\Now, let us define, \\
+	lower(X)= q\textsubscript{1}(X) – IQR (X)*1.5\\
+	Upper(X)= q\textsubscript{3}(X)+IQR (X)*1.5\\
+	If any values of X, say i-th value of X, X[i], say
+	Now \\
+	That is our general procedure\\
+	\begin{figure}[h]
+		\includegraphics[width=\textwidth]{boxplot_cont_rm.PNG}
+		\caption {Box-plot after removing the all the outliers}
+	\end{figure}
+	\paragraph{}In this way we can estimate all the outliers present in the data and hence we can say that, now our data is quite structured than the previous one.
+	\section{Linear regression on alcohol consumption}
+	Now we are begin with our preliminary consideration that whether student's final grade(G3) is affected by alcohol consumption, relationship etc..
+	So we start with our basic linear model assumption i.e. -
+	$$y = X\alpha\ +\ \delta \ $$\\
+	where
+	\begin{equation} 
+		\delta \sim some\ distribution\ with\ E(\delta)=0\ \&\ var(\delta)=\sigma^2
+	\end{equation}
+	 Here y is our response variable and X is the design matrix and $\alpha$ is the parameter in the model what we have estimate.\\
+	 Dalc and Walc provides the alcohol consumption data also the relationship represents by romantic, so the columns of X are - \\
+	 \textbf{First Column} $\rightarrow$ Columns of all 1's\\
+	 \textbf{Second Column} $\rightarrow$ Dalc\\
+	 \textbf{Third Column} $\rightarrow$ Walc\\
+	 So let us fit fit our MLR model with three regressors Dalc,Wlac and romantic.\\
+	 \begin{figure}[h]
+	 	\includegraphics[width = 0.8\textwidth]{short_model_summary.PNG}
+	 	\caption{Model summary corresponding to the three regressor variable}
+	 \end{figure}\\
+	 From the summary of the above model we can see that the $R^2$ value is 0.02472 and the $adjusted\ R^2$ value is 0.01723, which are very small to conclude any thing about the model. So a natural question arises that whether the regression is valid or not i.e. we have to test the hypothesis 
+	 $$H_0 : \alpha_1 = \alpha_2 = \alpha_3 = 0\ \ \ \ \ \  against \ \ \ \ \ \ H_1 : not\ H_0$$
+	 For testing this hypothesis our test statistic is --\\
+	 $$F_0 = \frac{(Sum\ of\ square\ due\ to\ regression)/(degrees\ of\ freedom = 3)}{(Sum\ of\ square\ due\ to\ error)/(degrees\ of\ freedom = 391)}$$
+	 Here we assume that additionally,
+	 $$\epsilon_i \sim independently\ Normal\ distribution(0,\sigma^2)\ \ \ \ \forall i= 1(1)395$$
+	 and
+	 
+	 From the above figure we see that the value of the F-statistic is 3.303 and the corresponding p-value is 0.02037,which is greater than 0.01 and hence we can finally fail to reject $H_0$ at 1\% level of significance. So the values of all the parameter associated with the regressors are exactly equal to zero at 1\% level of significance. Hence we finally conclude that the regression is not valid on the present scenario or equivalently Dalc, Walc and romantic does not affect significantly on the student's final grade.
+	 \section{Full model Building}
+	 Since from the previous discussion we see that the alcohol consumption has statistically no effect or insignificant for predicting anything about the final grade of the student. Hence we fit the full linear regression model i.e. the model with all the columns(except the column "failure", since it is a null column) as regressors and G3 as the response variable. So more mathematically,
+	 $$Y = X\beta + \epsilon $$
+	 where
+	 \begin{equation}
+	 	\epsilon \sim\ some\ distribution\ with\ E(\epsilon) = 0\ \&\ var(\epsilon) = \sigma^2
+	 \end{equation}
+	 Here $\beta$ = $(\beta_0,\beta_1,....,\beta_{40})^\intercal$ and X is the design matrix with 1's in te first column and the remaining columns as the other regressor variables.\\
+	 At first we try to find the least square estimate of the parameter vector $\beta$, and by the basic theory of the least square estimation procedure the parameter estimate is - 
+	 $$\hat{ \beta} = (X^\intercal X)^{-1}X^\intercal Y$$  
+	 So let us put the values of the estimated $\beta's$ and also see the model summary simultaneously.
+	 \begin{figure}[H]
+	 	\includegraphics[width = \textwidth]{full_summry_1.PNG}
+	 \end{figure}
+	 \begin{figure}[H]
+	 	\includegraphics[width = 0.8\textwidth]{full_summry_2.PNG}
+	 	\caption{The full moedl and the corresponding summary}
+	 \end{figure}
+	 In the above picture the first column indicates the parameter estimates,second columns indicates the standard error of the estimate,third column indicates the corresponding t-value and the final column indicates the p-value corresponding to th t-value.\\
+	 As before we first check whether the regression is valid or not i.e.
+	 $$H_0 : \beta_1 = \beta_2 =.... \beta_{40} = 0\ \ \ \ \ \  against \ \ \ \ \ \ H_1 : not\ H_0$$
+	 As above explained ---\\
+	 For testing this hypothesis our test statistic is --\\
+	 $$F_0 = \frac{(Sum\ of\ square\ due\ to\ regression)/(degrees\ of\ freedom = 40)}{(Sum\ of\ square\ due\ to\ error)/(degrees\ of\ freedom = 354)}$$
+	 Here additionally we assume that,$$\epsilon_i \sim independent\ Normal\ distribution(0,\sigma^2)\ \ \ \ \forall i= 1(1)395$$
+	 From the above figure we see that the value of the F-statistic is 26.98 and the corresponding p-value is 2.2e-16,which is less than 0.01 and hence we can finally  reject $H_0$ at 1\% level of significance. We can conclude that the regression is valid for the given scenario and we can proceed with our final analysis.
+	 \subsection{$R^2$ value}
+	 \par For checking the the model adequacy, we can proceed as following.\\
+	 Since in regression we actually predict some response variable by some other regressor variables. But actually the variation in the response variable is tried to explain by the regressor variables through the regression technique and this variation is measured by the corresponding sum of square. If the model fits well then the sum of square due to regression has to be large and the sum of square error is small. So, a general measure of model adequacy is --
+	 $$R^2 = \frac{Sum\ of\ square\ due\ to\ regression}{Sum\ of\ square\ due\ to\ error}$$
+	 Whose value lies between 0 and 1, where near 0 value represents the worse model fitting and near 1 value represents the better model fitting.\\
+	 For our case it is 0.753 which nor too bad but the model is also not to good hence we have to think better to fit the model better then the present.
+	 \subsection{Adjusted $R^2$ value}
+	 $R^2$ value represents the model adequacy well but it has a serious problem that if we increase the number of regressor then the $R^2$ value is also increases. It is a big drawback for any indicator which indicates the model adequacy because we can simply add too many regressors in our model and finally get a very good $R^2$ value quite easily. Hence a remedy for solving this issue is defining Adjusted $R^2$ which is same thing as $R^2$ except the fact that it is adjusted by the corresponding degrees of freedom of the sum of squares. So mathematically,
+	 $$R^2 = \frac{(Sum\ of\ square\ due\ to\ regression)/(Degrees\ of\ freedom\ for\ regression)}{(Sum\ of\ square\ due\ to\ error)/(Degrees\ of\ freedom\ for\ error)}$$
+	 It's value always less than the $R^2$ value but it has not any lower bound.\\
+	 For our case it is 0.7251 which nor too bad but the model is also not to good hence we have to think better to fit the model better then the present.
+	 \subsection{Residual Analysis}
+	 Residuals are the observed errors i.e. difference between observed response variable and predicted response variable. Now the model part i.e. the linear part of the regressor variable is supposed to be independent of the $\epsilon$ (error component). Now error is unobserved, so it is best explained by the residuals of the model. Also, errors are linearly independent from the predicted response variable. Hence, if we plot the predicted response and the residuals then the points must be scattered within a horizontal strip around the origin. For our model --
+	 \begin{figure}[H]
+	 	\includegraphics[height = 0.4\textwidth,width = \textwidth]{full_pre_res.PNG}
+	 	\caption{The residual plot corresponding to the full model}
+	 \end{figure}
+	 It is difficult to interpret anything about this residual plot so, we go into some further details.
+	 \subsection{Homoscadasticity Checking} 
+	 In the basic linear model assumption we assume that the distribution of error is homoscedastic but now we have to justify our assumption.Here we generally test the hypothesis that whether the distribution has a constant variance or not and if the p-value is less than 0.01 we reject our assumption of homoscedasticity at 1\% level of significance.
+	 \begin{figure}[H]
+	 	\includegraphics[width = \textwidth]{full_norm.PNG}
+	 	\caption{The Breusch Pagan test for testing the homoscedasticity assumption}
+	 \end{figure}
+	 From the above hypothesis it is readily obvious that the given sample is not from the  distribution with constant, since the p-value corresponding to each test is less than 0.01. So we can safely reject the null hypothesis i.e. the distribution has a constant variance.
+	 \subsection{Normality Assumption}
+	 For any further propagation it is necessary to assume the normality of the error as assumed previously. But for any further assumption we have to check it based on our given data. 
+	 \subsubsection{Graphical Checking}
+	 Graphically we can easily check the normality assumption by the Q-Q plot where the ranked residuals are placed in the X-axis and the sample quantiles are placed in the Y-axis. If the middle 60-80\% of the data must be in a straight line, we can easily conclude that the underlying distribution is normal. For our model the Q-Q plot is the following --
+	 \begin{figure}[H]
+	 	\includegraphics[width = \textwidth]{full_qq.PNG}
+	 	\caption{The Q-Q plot for normality checking}
+	 \end{figure}
+	 Since nearly the beginning, approximately 25\% observations falls bellow the normality line we can't safely assume the normality assumption for our model. 
+	 \subsubsection{Theoretical Checking}
+	 Form the graphical method we can't conclude anything about normality, here we go for the theoretical checking. For theoretical purpose we actually test the hypothesis whether the given sample is from normal distribution or not. So for our test --
+	 \begin{figure}[H]
+	 	\includegraphics[width = \textwidth]{full_normality.PNG}
+	 	\caption{Theoretical value for testing of normality assumption}
+	 \end{figure}
+	 From the above hypothesis it is readily obvious that the given sample is not from the normal distribution, since the p-value corresponding to each test is less than 0.01. So we can safely reject the null hypothesis i.e. the distribution is normal. 
+	 \section{Transformed Model}
+	 Since our original model violets all the assumption that we assume in our theoretical consideration,so it is necessary to transform our model. There are two possible transformation one is Box-Cox and another is sin hyperbolic inverse. Since in the Box-Cox transformation we need to identify the variable or variables causing the heteroskadasticity, so we choose the sin hyperbolic inverse transformation.Now a particular sin hyperbolic inverse transformation is not reliable so we transform Y as $sinh^{-1}(Y)^x$, where x is unknown. We will change x and choose the model with maximum $adjusted\ R^2$ value and the best fitted Q-Q plot simultaneously.
+	 \subsubsection{Maximum Adjusted$R^2$ and Corresponding Q-Q plot}
+	 Let us see two plots corresponding to the maximum $Adjusted R^2$ and the corresponding Q-Q plot.
+ 	\begin{figure}[H]
+ 		\includegraphics[height = 0.7\textheight,width=\textwidth]{trans_max_qq.png}
+ 		\caption{Normal Q-Q plot}
+ 	\end{figure}
+	This is the model with maximum adjusted $R^2$ but the Q-Q pot suggest that the normality assumption is till not valid.
+	Now we plot the change of adjusted$R^2$ corresponding to the values of x.
+	\begin{figure}[H]
+		\includegraphics[height = 0.3\textheight,width=\textwidth]{trans_x_adjR.png}
+		\caption{Normal Q-Q plot}
+	\end{figure} 
+	In this plot the \textbf{red point} indicates the point with maximum adjusted $R^2$ and the \textbf{blue circle} indicates that the point with better Q-Q plot.Since the surface of maxima is flat so we can choose the value with \textbf{blue circle} and the value of x at that position is 7.0.\\
+	Let us now see the Q-Q plot corresponding to the transformed model --
+	\begin{figure}[H]
+		\includegraphics[height = 0.5\textheight,width=\textwidth]{trans_final_qq.png}
+		\caption{Normal Q-Q plot}
+	\end{figure} 
+	 Now the Q-Q plot is far more better then the previous one.Now we have to check the theoretical values for normality and homoskadasticity.
+	 \subsection{Homoskadasticity Checking for Transformed Model}
+	 As before for theoretical purpose we actually test the hypothesis whether the given sample is from normal distribution or not. So for our test --
+	 \begin{figure}[H]
+	 	\includegraphics[width=\textwidth]{trans_final_homo.png}
+	 	\caption{The Breusch Pagan test for testing the homoscedasticity assumption}
+	 \end{figure} 
+	 Since the p-value is greater than 0.05, so we fail to reject the null hypothesis and the our assumption of homoskadasticity is validated.
+	 \subsection{Normality Assumption}
+	 Since from the graphical method we can't conclude anything about normality, here we go for the theoretical checking. For theoretical purpose we actually test the hypothesis whether the given sample is from normal distribution or not. So for our test --
+	 \begin{figure}[H]
+	 	\includegraphics[width=\textwidth]{trans_final_norm.png}
+	 	\caption{Theoretical value for testing of normality assumption}
+	 \end{figure}
+	 Now the above table of test statistic and their corresponding p-value suggests that the normality assumption is not violated, since the p-value corresponding to three tests out of four suggests that the sample is from normal distribution as the values are greater than 0.05. So we finally securely say that the error distribution is normal.\\
+	\par Now all of our basic assumptions are satisfied, so finally we try to see the model summary and residual analysis of our final transformed model.
+	\subsection{Transformed Model Summary and Residual Analysis}
+	\subsubsection{Summary}
+	 For the final transformed model,let us summarize all the information. Here our main target is to see what is the adjusted$R^2$ for this model. 
+	 \begin{figure}[H]
+	 	\includegraphics[width=0.8\textwidth]{trans_final_summary1.png}
+	 \end{figure}
+	 \begin{figure}[H]
+	 	\includegraphics[width=0.9\textwidth]{trans_final_summary2.png}
+	 	\caption{Transformed model summary}
+	 \end{figure}
+	 From the above summary it is readily seen that the test of regression is significant implies that the the regression is valid.Now the $R^2$ value is 0.897 and the adjusted$R^2$ value is 0.8854, which are too well than the previous and we can sufficiently be satisfied with those values.
+	 \subsubsection{Residual Plots}
+	 By different residual plot we actually try to see whether our model looks fine or it again includes some of the difficulty. Fo this we first plot the R studentized residuals or the deleted studentized residuals against the predicted response variable. And the plot is tyhe following --
+	 \begin{figure}[H]
+	 	\includegraphics[height = 8.2 cm,width=0.8\textwidth]{full_residual.png}
+	 	\caption{Threshold plot for detecting the residuals}
+	 \end{figure}
+	 The observations lying outside the threshold line are the outliers and since they are small in compare to the data-set so we will ignore the outliers for our model.
+	 \subsubsection{Leverage points}
+	 In statistics and in particular in regression analysis, leverage is a measure of how far away the independent variable values of an observation are from those of the other observations. High-leverage points, if any, are outliers with respect to the independent variables. That is, high-leverage points have no neighboring points in     $R ^p$ space, where p is the number of independent variables in a regression model. This makes the fitted model likely to pass close to a high leverage observation.[1] Hence high-leverage points have the potential to cause large changes in the parameter estimates when they are deleted i.e., to be influential points. Although an influential point will typically have high leverage, a high leverage point is not necessarily an influential point. The leverage is typically defined as the diagonal elements of the hat matrix.
+	 Let us now see the residual and the leverage plot for our data-set -- 
+	 \begin{figure}[H]
+	 	\includegraphics[height = 8.2 cm,width=\textwidth]{trans_leverage.png}
+	 	\caption{Threshold plot for detecting the outliers and the leverage points}
+	 \end{figure}	
+ 	 The only red point which is far apart from the the usual residuals is the only leverage point for our data-set and we have to remove this point for better fitting out model. 
+	 \subsubsection{Removing Leverage point}
+	 Let us now remove the leverage point and fit our model again to see whether there is an significant change in our model parameter estimation or other theoretical calculation purpose.
+	 \begin{figure}[H]
+	 	\includegraphics[height = 8.2 cm,width=\textwidth]{trans_final_leverage.png}
+	 	\caption{Leverage and residual plot fter removing the leverage point}
+	 \end{figure}
+	 \subsubsection{Model Summary}
+	 After removing the leverage point let us see the fitted model summary and the corresponding measurement based on that model.  	 
+	 \begin{figure}[H]
+	 	\includegraphics[width=0.9\textwidth]{model_summary1.png}
+	 \end{figure}
+	 \begin{figure}[H]
+	 	\includegraphics[width=0.9\textwidth]{model_summary2.png}
+	 	\caption{Model summary after removing the leverage point}
+	 \end{figure}
+ 	 Since the $R^2$ and the adjusted$R^2$ value and also the model parameters are approximately same as that of the previous model, hence we can say that there is not a significant effect of th leverage point in our model.
+	 \par Now let us plot the residuals and the predicted response variable by the histogram to see the ultimate behavior of our final transformed model.
+	 \begin{figure}[H]
+	 \begin{subfigure}[b]{0.5\textwidth}
+	 	\includegraphics[width=\textwidth]{trans_predicted.png}
+	 	\caption{Histogram of the fitted response\\ after transforming the model}
+	 \end{subfigure}%
+ \hfill
+	 \begin{subfigure}[b]{0.5\textwidth}
+	 	\includegraphics[width=\textwidth]{trans_residual.png}
+	 	\caption{Histogram of the residuals\\ after transforming the model}
+	 \end{subfigure}
+ 	 \caption{Histogram : Predicted response and the residuals}
+	 \end{figure}
+	 \section{Multicollinearity}
+	 \paragraph{}\paragraph{}Multicollinearity is a silent killer of any regression model. If the multicollinearity is present in the data then all the coefficient magnitudes becomes very large, but the predicted value of the response variables may be highly satisfactory. But if we delete one row or one column then the model change drastically, the negative coefficient becomes positive, the largest coefficient may be smaller in the newer model and finally the prediction may be reversed the previous one.
+	 \paragraph{}Let us consider an example: based on our present data we fit a model and estimate response variable, i.e. we give a mathematical logic for predicting some near future observations. The model gives well data fit, all the model accuracy say that this model is a good one. But after one or two week we again collect some data and add to the data-set and the model changes drastically. If may possible that it’s prediction based on the previous data also changes dramatically and we finally conclude that the model is completely worthless.
+	 \paragraph{}Let us consider our MLR model --
+	 
+	 Now the least square estimators of the model parameters i.e. $\beta$'s are explained as
+	 $$\hat{\beta} = (X^\intercal X)^{-1}X^\intercal Y$$
+	 Now the matrix $(X^\intercal X)$ must be non-singular for the inverse to exist.Since the elements of $(X^\intercal X)$ are continuous real values it has a very high probability that it is non-singular.Now the original problem occurs when the matrix is non-singular but it is actually near singular i.e the determinant of $(X^\intercal X)$ is $\approx$ 0. Then this $(X^\intercal X)$ matrix is said to be the ill-conditioned matrix.
+	 \subsection{Simple Correlation Check}Let us first look into the simple correlation matrix for the whole data-set. Now the correlation matrix is not only hard to interpret but also very difficult to visualize. So what we want to say that instead of correlation matrix we try to visualize it by the correlation heat map. Here light colors represent the high positive correlation and the dark color represent the high negative correlation, in between the color changes with the from light to dark gradient as the value of the correlation changes from 1.0 to -1.0.
+	 \begin{figure}[H]
+	 	\includegraphics[height = \textheight,width=\textwidth]{correlogram.PNG}
+	 	\caption {The circle correlation heat-map of our data-set}
+	 \end{figure}
+	 The correlation heat-map is only a graphical consideration so we can't consider it as a real criterion for checking out the multicollinearity. We have to choose some of the theoretical measurement for checking the multicollinearity in the model.
+	 	\subsection{Variance Inflation Factor}
+	 Since the correlation matrix is not very informative for our data, we choose our second alternative procedure for finding multicollinearity in the data,if presents. Now multicollinearity exists only if the continuous columns are nearly linearly dependent. so we first standardize the continuous columns and try to apply the VIF method to completely get rid of the multicollinearity problem.
+	 We first check the VIF values for our model for each of the regressor variables and as a rule of thumb if 
+	 \begin{itemize}
+	 	\item If VIF value is greater then 5, we can say that multicollinearity is present in the model.
+	 	\item Else multicollinearity is not present in our model.
+	 \end{itemize}
+ 	Now th VIF values for our model --
+ 	 \begin{figure}[H]
+ 		\includegraphics[width=\textwidth]{VIF_initial.PNG}
+ 		\caption {The VIF values for all of our regressors}
+ 	\end{figure}
+     Since Fjob3 and Fjob2 has VIF value greater than 5 So we can drop the highest one and check tha VIF agian.
+     \begin{figure}[H]
+     	\includegraphics[width=\textwidth]{VIF_final.PNG}
+     	\caption {The VIF values for all of our regressors f after deleting the correlated variable}
+     \end{figure}
+	 Since none of the variable has VIF value greater than 5, hence we can conclude that the number of regressor included in our model are free from multicollinearity and this is our final model before the variable selection procedure has been done.
+	 \par Now thefinal model summary is described as --
+	 \begin{figure}[H]
+	 	\includegraphics[width=\textwidth]{final_model_summary1.PNG}
+	 \end{figure}
+	\begin{figure}[H]
+		\includegraphics[width=1.03\textwidth]{final_model_summary2.PNG}
+		\caption {Summary of the final model before variable selection}
+	\end{figure}
+	 \section{variable Selection}
+	 Now in our model there are too many regressor variables so it not compatible for many situation to collect those information about these variables correctly. So it is necessary to choose a perfect set of regressors that are as good as the full set of regressors. So there are mainly three methods to choose these variables and we would choose the variobles based on the AIC(Akaike Information Criterion) whose main principal is smaller the value better value result.
+	 \subsection{Forward Selection}
+	 The basic criterion for the variable selection by the forward selection method is described by the following algorithm -- 
+	 \begin{itemize}
+	 	\vspace{-0.2 cm} \item We start with the intercept model and compute the AIC for the model.
+	 	\vspace{-0.2 cm} \item We then compute AIC for all the possibilities of adding one more variable in our intercept only model. We select the variable with the smallest AIC if it has a lower AIC than intercept only model.
+	 	\vspace{-0.2 cm} \item We then again compute AIC for adding one more variable in the model. We sort the values by ascending order and variables are added depending on the value of AIC.
+	 	\vspace{-0.2 cm} \item We continue performing these steps until any further addition results in increase of AIC of the model.
+	 \end{itemize}
+	 \par For our model the forward selection curve and the summary of the selected model is the following --
+	 \begin{figure}[H]
+	 	\includegraphics[height = 5 cm,width=\textwidth]{forward.PNG}
+	 	\caption {Variables selection sequence in forward selection }
+	 \end{figure}
+	 \begin{figure}[H]
+	 	\includegraphics[height =0.5 \textheight,width=\textwidth]{forward_summary.PNG}
+	 	\caption {summary of the model selected by the forward selection}
+	 \end{figure}
+	 \par This model has only 11 variables and the $adjusted R^2$ value is 0.8892 which is nearly the same as the previous. So this model is as good as the previous one but has a big advantage that here the number of variables is only 11 nearly one-forth than the previous.
+	 
+	 \subsection{Backward Elimination}
+	 The basic criterion for the variable deletion by the backward elimination method is described by the following algorithm -- 
+	 \begin{itemize}
+	 	\vspace{-0.2 cm} \item We start with the full model(model with all the regressors and the intercept) and compute the AIC for the model.
+	 	\vspace{-0.2 cm} \item We then compute AIC for all the possibilities of deleting one more variable from our full model. We delete the variable with the smallest AIC if it has a lower AIC than full model.
+	 	\vspace{-0.2 cm} \item We then again compute AIC for deleting one more variable from the model. We sort the values by ascending order and the existing variable is subtracted depending on the value of AIC.
+	 	\vspace{-0.2 cm} \item We continue performing these steps until any further deletion results in increase of AIC of the model.
+	 \end{itemize}
+	 \par For our model the backward elimination curve and the summary of the selected model is the following --
+	 \begin{figure}[H]
+	 	\includegraphics[height = 10 cm,width=\textwidth]{backward.PNG}
+	 	\caption {Variables deletion sequence in backward elimination}
+	 \end{figure}
+	 \begin{figure}[H]
+	 	\includegraphics[height =0.5 \textheight,width=\textwidth]{backward_summary.PNG}
+	 	\caption {summary of the model selected by the backward elimination}
+	 \end{figure}
+	 \par This model has only 13 variables and the $adjusted R^2$ value is 0.8897 which is nearly the same as the previous. So this model is as good as the previous one but has a big advantage that here the number of variables is only 13 nearly one-forth than the original model and approximately same as the forward selection model.
+	 \subsection{Stepwise Selection}A combination of forward selection and backward elimination procedure is the stepwise regression for selecting a basket of good variables. It is a not only a modification of forward selection procedure but also the backward elimination one and has the following steps.
+	 \begin{itemize}
+	 	\vspace{-0.2 cm}\item We start with the intercept model and compute the AIC for the model.
+	 	\vspace{-0.2 cm}\item We then compute AIC for all the possibilities of adding one more variable in our   intercept only model. We select the variable with the smallest AIC if it has a lower AIC than intercept only model.
+	 	\vspace{-0.2 cm}\item We then again compute AIC for adding one more variable in the model along with the AIC for removing the already added variable. We sort the values by ascending order and variables are either added or the existing variable is subtracted depending on the value of AIC.
+	 	\vspace{-0.2 cm}\item We continue performing these steps until any further action - addition or subtraction, results in increase of AIC of the model.
+	 \end{itemize}
+	 \par For our model the stewise selection curve and the summary of the selected model is the following --
+	 \begin{figure}[H]
+	 	\includegraphics[height = 7.5 cm,width=\textwidth]{stepwise.PNG}
+	 	\caption {Variables selection or deletion sequence in stepwise selection}
+	 \end{figure}
+	 \begin{figure}[H]
+	 	\includegraphics[height =0.5 \textheight,width=\textwidth]{stepwise_summary.PNG}
+	 	\caption {summary of the model selected by the stepwise selection}
+	 \end{figure}
+	 \par This model has only 13 variables and the $adjusted R^2$ value is 0.8897 which is exactly the same as the previous. So this model is as good as the original one but has a big advantage that here the number of variables is only 13 nearly one-forth than the original model and approximately same as the forward selection model.\\
+	 \section{Conclusion}
+	 \textbf{Here all the three model suggests nearly the same amount of regressor variables and also approximately same adjusted R-squared value.So we can choose any on of them safely. Since the stepwise selection is a selection procedure that takes into account both the forward selection and he backward elimination i.e. a combination of the above two method, we can select the final model as the model selected by the stepwise selection procedure.
+	 	We can finally conclude that the student's grade can be modeled or predicted with approximately 89\% accuracy based on the variable selected by the stepwise selection procedure.
+	 }
+ \newpage
+	 \section{reference}
+	 \begin{enumerate}
+	 	\item \textbf{Introduction to Linear Regression Analysis} - Douglas C Montgomery, Elizabeth A Peck , G. Geoffrey Vining
+	 	\item \textbf{Applied Regression Analysis, Third Edition} - Norman R. Draper, Harry Smith
+	 	\item \textbf{Regression Analysis Lecture Notes by Prof. Sharmishtha Mitra(Course MTH - 416A)}
+	 	\item \url{https://en.wikipedia.org/wiki/Leverage_(statistics)}
+	 	\item \url{http://www.sthda.com/english/wiki/visualize-correlation-matrix-using-correlogram}
+	 	\item 
+	 	\url{https://cran.r-project.org/web/packages/olsrr/vignettes/intro.html}
+	 	\item \url{https://www.rdocumentation.org/packages/ggplot2/versions/3.3.6}
+	 \end{enumerate}
+	                                                                                                                                      
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+ 
+	\end{document}
